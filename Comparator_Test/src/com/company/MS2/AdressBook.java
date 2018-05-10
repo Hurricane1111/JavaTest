@@ -1,5 +1,4 @@
 package com.company.MS2;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.*;
 
@@ -55,7 +54,8 @@ public class AdressBook {
     };
 
 
-    public ArrayList<Contact> sortedArray() {
+    public void sortedArray() {
+
         switch (sortBy) {
             case Age:
                 contacts.sort(byAge);
@@ -70,9 +70,8 @@ public class AdressBook {
                 contacts.sort(byPhoneNumber);
                 break;
             default:
-                return  contacts;
+                break;
         }
-        return  contacts;
     }
 
     public void addContact(Contact contact) {
@@ -85,5 +84,12 @@ public class AdressBook {
 
     public void setSortBy(ContactSortBy sortBy) {
         this.sortBy = sortBy;
+    }
+
+    //Метод для печати списка контактов
+    public void listContact() {
+        for (Contact currentContact : contacts) {
+            currentContact.describe();
+        }
     }
 }

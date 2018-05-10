@@ -46,17 +46,11 @@ public class Main {
         contact5.phoneNumber = "+380909207198";
 
         newBook.addContact(contact5);
-        newBook.setSortBy(ContactSortBy.PhoneNumber);
-        newBook.setByIncreasing(true);
+        newBook.setSortBy(ContactSortBy.Name);
+        newBook.setByIncreasing(false);
         newBook.sortedArray();
 
-        for (Contact contact : newBook.sortedArray()) {
-            System.out.println(contact.name);
-            System.out.println(contact.secondName);
-            System.out.println(contact.age);
-            System.out.println(contact.phoneNumber);
-            System.out.println();
-        }
+        newBook.listContact();
 
     }
 }
