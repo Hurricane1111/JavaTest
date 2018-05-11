@@ -50,7 +50,11 @@ public class Main {
         newBook.setByIncreasing(false);
         newBook.sortedArray();
 
-        newBook.listContact();
+//        newBook.listContact();
+
+        Formula newFormula = new Formula("Cu3CO2");
+
+        newFormula.description();
 
     }
 }
