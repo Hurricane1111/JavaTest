@@ -12,4 +12,15 @@ public class Contact {
     public Contact() {
 
     }
+
+
+    // Describe contact
+    public void describe() {
+        System.out.println(name);
+        System.out.println(secondName);
+        System.out.println(age);
+        System.out.println(phoneNumber);
+        System.out.println();
+    }
+
 }
