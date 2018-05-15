@@ -38,8 +38,6 @@ public class Formula {
             elements.add(elementName);
             elementName = "";
         }
-
-
     }
 
 
@@ -47,5 +45,10 @@ public class Formula {
         for (String element : elements) {
             System.out.println(element);
         }
+    }
+
+    public void parseAndDescribeFormula() {
+        this.parseFormula();
+        this.description();
     }
 }

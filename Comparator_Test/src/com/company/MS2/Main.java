@@ -1,25 +1,40 @@
 package com.company.MS2;
 
-import org.omg.CORBA.Any;
-
 import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        String command = "";
-        System.out.println("Run new session: " + new Date().toString());
-        while (command != "exit") {
-            System.out.print(command != "exit");
-            System.out.print("root: ");
-            Scanner keyboarIn = new Scanner(System.in);
+        Formula someFormula= new Formula("H2SO4");
+        String formula = "H2SO4";
+        System.out.println(someFormula.formula == formula);
+        someFormula.elements.size();
+        HashSet<String> stringElements = new HashSet();
+        stringElements.add("A");
+        stringElements.add("B");
+        stringElements.add("C");
+        stringElements.add("D");
+        stringElements.add("E");
+        stringElements.add("A");
+        stringElements.add("B");
 
-            command = keyboarIn.nextLine();
-            System.out.println(command + " is unknown command \n");
+        System.out.println(stringElements);
+
+
+
+        char[] array = "Symbols".toCharArray();
+//    HashSet<String> stringElements = new HashSet();
+        for (int i = 0; i < array.length; i++) {
+            if (Character.isUpperCase(array[i])) {
+                String someChar = String.valueOf(array[i]);
+                if (i+1 > array.length) {
+                    stringElements.add(someChar);
+                }
+            }
 
         }
-        System.out.println("Session is ended at " + new Date().toString());
+
     }
 }
 
@@ -77,3 +92,20 @@ public class Main {
 //            System.out.println(contact.phoneNumber);
 //            System.out.println();
 //        }
+//
+//
+
+
+//        String command = "";
+//
+//        System.out.println("Run new session: " + new Date().toString());
+//        while (command != "exit") {
+//            System.out.print(command != "exit");
+//            System.out.print("root: ");
+//            Scanner keyboarIn = new Scanner(System.in);
+//
+//            command = keyboarIn.nextLine();
+//            System.out.println(command + " is unknown command \n");
+//
+//        }
+//        System.out.println("Session is ended at " + new Date().toString());
