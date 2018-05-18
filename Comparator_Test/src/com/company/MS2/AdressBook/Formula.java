@@ -1,4 +1,4 @@
-package com.company.MS2;
+package com.company.MS2.AdressBook;
 
 import java.util.*;
 import java.lang.*;
@@ -18,6 +18,8 @@ public class Formula {
 
         char[] formulaByChars = formula.toCharArray();
         String elementName = "";
+
+        ArrayList<String> srt = new ArrayList<>();
 
         for (char symbol: formulaByChars) {
             if (Character.isAlphabetic(symbol) && Character.isUpperCase(symbol)) {

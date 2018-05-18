@@ -1,40 +1,12 @@
 package com.company.MS2;
 
-import java.util.*;
+import com.company.MS2.AdressBook.Formula;
 
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
-        Formula someFormula= new Formula("H2SO4");
-        String formula = "H2SO4";
-        System.out.println(someFormula.formula == formula);
-        someFormula.elements.size();
-        HashSet<String> stringElements = new HashSet();
-        stringElements.add("A");
-        stringElements.add("B");
-        stringElements.add("C");
-        stringElements.add("D");
-        stringElements.add("E");
-        stringElements.add("A");
-        stringElements.add("B");
 
-        System.out.println(stringElements);
-
-
-
-        char[] array = "Symbols".toCharArray();
-//    HashSet<String> stringElements = new HashSet();
-        for (int i = 0; i < array.length; i++) {
-            if (Character.isUpperCase(array[i])) {
-                String someChar = String.valueOf(array[i]);
-                if (i+1 > array.length) {
-                    stringElements.add(someChar);
-                }
-            }
-
-        }
-
+        Terminal.sharedTerminal.run();
     }
 }
 
