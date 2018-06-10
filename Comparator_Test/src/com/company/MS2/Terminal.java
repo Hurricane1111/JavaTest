@@ -1,16 +1,10 @@
 package com.company.MS2;
-// User interface
-// Read commands from keyboard
-// Contain othe programms
-// Error handler
-// Unified access protocol
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Terminal  {
 
-    ArrayList<TerminalUI> programms = new ArrayList<TerminalUI>();
+    HashMap<String,TerminalUI> programms = new HashMap<String, TerminalUI>();
 
     ArrayList<String> commandStack = new ArrayList<>();
 
@@ -23,22 +17,41 @@ public class Terminal  {
     public void run() {
 
         String command = "";
-
+        this.firstLaunch();
         while (!command.equals("exit")) {
+            System.out.print("-executor [Graviton]: ");
             Scanner keyboardInput = new Scanner(System.in);
             command = keyboardInput.nextLine();
-            System.out.println(command);
             this.performProgramm(command);
         }
 
     }
 
-    private void performProgramm(String programmName) {
-        for (TerminalUI programm : programms ){
-            if (programm.name.equals(programmName)) {
-                programm.execute(programmName);
-            }
+    private void performProgramm(String inputCommand) {
+        String commandName = this.parseCommandName(inputCommand);
+        TerminalUI programm = programms.get(commandName);
+
+        if (programm == null) {
+            System.out.printf("-executor: \"%s\" command not found\n", commandName);
+        } else {
+            programm.execute(inputCommand);
         }
+
+    }
+
+    private String parseCommandName(String command) {
+        String split = command.replaceAll("\n", "");
+        String[] linesArray = split.split(" ");
+
+        return  linesArray.length > 0 ? linesArray[0] : "";
+    }
+
+    private void firstLaunch() {
+        System.out.print("Terminal session started at " );
+        System.out.print(new Date());
+        System.out.println(": User Igor Polishchuk.");
+        System.out.println("© Copyright by Igor Inc. at 2018 year.");
+
     }
 
     private void stop() {

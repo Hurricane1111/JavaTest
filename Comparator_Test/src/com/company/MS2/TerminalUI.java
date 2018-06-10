@@ -6,8 +6,8 @@ public interface TerminalUI {
 
     public String name = "";
 
-    public String execute(String command);
-    public String example(String forCommand);
-    public String exit();
+    public void execute(String command);
+    public void example(String forCommand);
+    public void exit();
 
 }
