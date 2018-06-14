@@ -4,21 +4,27 @@ import java.util.*;
 
 public class Terminal  {
 
+    HashMap<String,TerminalUI> avaliableForInstallProgramms = new HashMap<String, TerminalUI>();
+
     HashMap<String,TerminalUI> programms = new HashMap<String, TerminalUI>();
 
     ArrayList<String> commandStack = new ArrayList<>();
+    Boolean isExit = false;
 
     // SINGLE-TONE pattern
     static Terminal sharedTerminal = new Terminal();
 
     private Terminal() {
+        programms.put("exit", new ExitTerminal());
+        programms.put("lt", new LetterTranslater());
+        avaliableForInstallProgramms.put("lt", new LetterTranslater());
     }
 
     public void run() {
 
         String command = "";
         this.firstLaunch();
-        while (!command.equals("exit")) {
+        while (!isExit) {
             System.out.print("-executor [Graviton]: ");
             Scanner keyboardInput = new Scanner(System.in);
             command = keyboardInput.nextLine();
@@ -30,19 +36,19 @@ public class Terminal  {
     private void performProgramm(String inputCommand) {
         String commandName = this.parseCommandName(inputCommand);
         TerminalUI programm = programms.get(commandName);
-
+    if (commandName.equals("exit")) {
+        isExit = true;
+    }
         if (programm == null) {
             System.out.printf("-executor: \"%s\" command not found\n", commandName);
         } else {
             programm.execute(inputCommand);
         }
-
     }
 
     private String parseCommandName(String command) {
         String split = command.replaceAll("\n", "");
         String[] linesArray = split.split(" ");
-
         return  linesArray.length > 0 ? linesArray[0] : "";
     }
 
@@ -51,6 +57,10 @@ public class Terminal  {
         System.out.print(new Date());
         System.out.println(": User Igor Polishchuk.");
         System.out.println("© Copyright by Igor Inc. at 2018 year.");
+
+    }
+
+    private void installProgramm(String programmName) {
 
     }
 
