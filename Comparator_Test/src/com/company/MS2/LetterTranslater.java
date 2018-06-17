@@ -1,5 +1,6 @@
 package com.company.MS2;
 
+import javax.lang.model.type.ArrayType;
 import java.security.Key;
 import java.util.*;
 
@@ -20,26 +21,25 @@ public class LetterTranslater implements TerminalUI {
     }
 
 
-    private HashMap<String,ArrayList<String>> parse(String inputCommand) {
+    private HashMap<String, HashSet<String>> parse(String inputCommand) {
 
-        HashMap<String,ArrayList<String>>params = new HashMap<String,ArrayList<String>>();
+        HashMap<String, HashSet<String>> params = new HashMap<String, HashSet<String>>();
 
-        String[] separatedOption = inputCommand.split(" ");
-        if (separatedOption.length > 1) {
+        String[] separatedCommand = inputCommand.split(" ");
+        if (separatedCommand.length > 1) {
             //Search for options
-            for (int i = 1; i < separatedOption.length; i++) {
-                String currentElement = separatedOption[i];
+            for (int i = 1; i < separatedCommand.length; i++) {
+                String currentElement = separatedCommand[i];
                 if (currentElement.length() > 0) {
-                    char suffix = currentElement.charAt(0);
-                    if (suffix == '-') {
+                    char prefix = currentElement.charAt(0);
+                    if (prefix == '-') {
                         if (options.contains(currentElement)) {
-                            ArrayList<String> option = params.get(Keys.OptionKey());
+                            HashSet<String> option = params.get(Keys.OptionKey());
                             if (option == null) {
-                                option = new ArrayList<String>();
+                                option = new HashSet<String>();
                             }
                             option.add(currentElement);
                             params.put(Keys.OptionKey(), option);
-                            System.out.println(currentElement);
 
                         } else {
                             this.example(currentElement);
@@ -48,30 +48,27 @@ public class LetterTranslater implements TerminalUI {
                     }
                 }
             }
-            String[] separatedArgument;
-
-            ArrayList<String> currentOptions = params.get(Keys.OptionKey());
-
-            if (currentOptions != null && currentOptions.size() > 0) {
-                separatedArgument = inputCommand.split(currentOptions.get(currentOptions.size() - 1));
-            } else {
-                String[] tempArgument = inputCommand.split(" ");
-                    separatedArgument = new String[tempArgument.length];
-                for (int i = 1; i < tempArgument.length; i++) {
-                    separatedArgument[i - 1] = tempArgument[i];
-                }
+            HashSet<String> findedOptions;
+            findedOptions = params.get(Keys.OptionKey());
+            if (findedOptions == null) {
+                findedOptions = new HashSet<String>();
             }
-// Здесь ошибка!
-            String argument = ""; // Это начало исправления
-                     separatedArgument.toString();
-            ///// ???????
-            if (argument.length() > 2 && argument.charAt(0) == '\"' && argument.charAt(argument.length() - 1) == '\"') {
-                ArrayList<String> arguments = new ArrayList<String>();
-                arguments.add(argument);
+
+            String argumentStr = separatedCommand[findedOptions.size() + 1];
+
+            for (int i = findedOptions.size() + 2; i < separatedCommand.length; i++) {
+                argumentStr = argumentStr + " " + separatedCommand[i];
+            }
+
+
+            System.out.println(argumentStr + "My argument");
+            if (argumentStr.length() > 2 && argumentStr.charAt(0) == '\"' && argumentStr.charAt(argumentStr.length() - 1) == '\"') {
+                HashSet<String> arguments = new HashSet<String >();
+                arguments.add(argumentStr);
                 params.put(Keys.ArgumentKey(), arguments);
             } else {
-                this.example(argument);
-                return  null;
+                this.example(argumentStr);
+                return null;
             }
 
 
@@ -79,11 +76,21 @@ public class LetterTranslater implements TerminalUI {
         return params;
     }
 
+    private void translate(HashMap<String , HashSet<String>>params) {
+        //Проверить наличие опций в params и в случае присутствия - подчинить строку правилам.
+
+        String argument = (String) params.get(Keys.ArgumentKey()).toArray()[0];
+        String[] options = (String[]) params.get(Keys.OptionKey()).toArray();
+
+
+    }
     @Override
     public void execute(String command) {
-        HashMap<String,ArrayList<String>> params = this.parse(command);
-    if (params != null ) {
-            System.out.println(params.toString());
+        HashMap<String, HashSet<String>> params = this.parse(command);
+        if (params != null) {
+            this.translate(params);
+        } else {
+            example("");
         }
     }
 
@@ -106,7 +113,6 @@ public class LetterTranslater implements TerminalUI {
 }
 
 
-
 ///          lt -r -lc "sfdfkslfgjd dfgdfg -lc sjg ss"
 
-//          [Key.Options : [-r, -lc]];
+//          [Key.Options : [-r, -lc], Key.Argument: ["Some string"]];
