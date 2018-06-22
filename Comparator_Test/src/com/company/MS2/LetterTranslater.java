@@ -81,8 +81,18 @@ public class LetterTranslater implements TerminalUI {
 
         String argument = (String) params.get(Keys.ArgumentKey()).toArray()[0];
         String[] options = (String[]) params.get(Keys.OptionKey()).toArray();
+        for (String option:options) {
+            if (option.equals("-r")) {
+                argument = new StringBuilder(argument).reverse().toString();
+            } else if (option.equals("-lc")) {
+                argument = argument.toLowerCase();
+            }
+        }
 
+        char[] symbolStringArray = argument.toCharArray();
+        for (char symbol : symbolStringArray) {
 
+        }
     }
     @Override
     public void execute(String command) {
