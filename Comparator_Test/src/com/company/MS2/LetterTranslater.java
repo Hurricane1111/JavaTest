@@ -1,5 +1,7 @@
 package com.company.MS2;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import javax.lang.model.type.ArrayType;
 import java.security.Key;
 import java.util.*;
@@ -12,14 +14,65 @@ public class LetterTranslater implements TerminalUI {
     private static ArrayList<String> options = new ArrayList<String>();
 
     //Example
-    String example = "lt [-options (-r) (-lc)] [-argument (\"String\")]";
+    String example = "lt [-options (-r) (-lc) (-f)] [-argument (\"String\") (\'String\')]";
 
     public LetterTranslater() {
         options.add("-r");
         options.add("-lc");
-
+        options.add("-f");
     }
 
+    private HashMap<Character,Character> characterMap() {
+        HashMap<Character,Character> charDictionary = new HashMap<Character, Character>();
+        charDictionary.put('1', '1');
+        charDictionary.put('2', '2');
+        charDictionary.put('3', '3');
+        charDictionary.put('4', '4');
+        charDictionary.put('5', '5');
+        charDictionary.put('6', '6');
+        charDictionary.put('7', '7');
+        charDictionary.put('8', '8');
+        charDictionary.put('9', '9');
+        charDictionary.put('0', '0');
+        charDictionary.put('-', '-');
+        charDictionary.put('=', '=');
+        charDictionary.put('q', 'й');
+        charDictionary.put('w', 'ц');
+        charDictionary.put('e', 'у');
+        charDictionary.put('r', 'к');
+        charDictionary.put('t', 'е');
+        charDictionary.put('y', 'ё');
+        charDictionary.put('u', 'г');
+        charDictionary.put('i', 'ш');
+        charDictionary.put('o', 'щ');
+        charDictionary.put('p', 'з');
+        charDictionary.put('[', 'х');
+        charDictionary.put(']', 'ъ');
+        charDictionary.put('\\', 'ё');
+        charDictionary.put('a', 'ф');
+        charDictionary.put('s', 'ы');
+        charDictionary.put('d', 'в');
+        charDictionary.put('f', 'а');
+        charDictionary.put('g', 'п');
+        charDictionary.put('h', 'р');
+        charDictionary.put('j', 'о');
+        charDictionary.put('k', 'л');
+        charDictionary.put('l', 'д');
+        charDictionary.put(';', 'ж');
+        charDictionary.put('\'', 'э');
+        charDictionary.put('z', 'я');
+        charDictionary.put('x', 'ч');
+        charDictionary.put('c', 'с');
+        charDictionary.put('v', 'м');
+        charDictionary.put('b', 'и');
+        charDictionary.put('n', 'т');
+        charDictionary.put('m', 'ь');
+        charDictionary.put(',', 'б');
+        charDictionary.put('.', 'ю');
+        charDictionary.put('/', '/');
+
+        return charDictionary;
+    }
 
     private HashMap<String, HashSet<String>> parse(String inputCommand) {
 
@@ -55,8 +108,8 @@ public class LetterTranslater implements TerminalUI {
             }
 
             String argumentStr = separatedCommand[findedOptions.size() + 1];
-
-            for (int i = findedOptions.size() + 2; i < separatedCommand.length; i++) {
+// Изменить для нового функционала
+           for (int i = findedOptions.size() + 2; i < separatedCommand.length; i++) {
                 argumentStr = argumentStr + " " + separatedCommand[i];
             }
 
@@ -70,7 +123,7 @@ public class LetterTranslater implements TerminalUI {
                 this.example(argumentStr);
                 return null;
             }
-
+//Конец
 
         }
         return params;
@@ -80,8 +133,11 @@ public class LetterTranslater implements TerminalUI {
         //Проверить наличие опций в params и в случае присутствия - подчинить строку правилам.
 
         String argument = (String) params.get(Keys.ArgumentKey()).toArray()[0];
-        String[] options = (String[]) params.get(Keys.OptionKey()).toArray();
-        for (String option:options) {
+        for (Object element : params.get(Keys.OptionKey()).toArray()) {
+            System.out.println(element);
+        }
+        Object[] optionElement = params.get(Keys.OptionKey()).toArray();
+        for (Object option:optionElement) {
             if (option.equals("-r")) {
                 argument = new StringBuilder(argument).reverse().toString();
             } else if (option.equals("-lc")) {
@@ -90,10 +146,27 @@ public class LetterTranslater implements TerminalUI {
         }
 
         char[] symbolStringArray = argument.toCharArray();
-        for (char symbol : symbolStringArray) {
+        HashMap<Character,Character> charMap = this.characterMap();
 
-        }
+            for (char symbol : symbolStringArray) {
+                boolean isLowerCase = Character.isLowerCase(symbol);
+                char lowerCaseSymbol = Character.toLowerCase(symbol);
+                if (charMap.get(lowerCaseSymbol) != null) {
+                    char mappedChar = charMap.get(lowerCaseSymbol);
+                    if (!isLowerCase) {
+                        mappedChar = Character.toUpperCase(mappedChar);
+                    }
+                    System.out.println(symbol + " - " + mappedChar);
+
+                } else {
+                    System.out.println(symbol + " - " + "There is no such symbol in map");
+
+                }
+            }
+            this.exit();
     }
+
+
     @Override
     public void execute(String command) {
         HashMap<String, HashSet<String>> params = this.parse(command);
@@ -109,7 +182,6 @@ public class LetterTranslater implements TerminalUI {
         System.out.println("Uncknown parameter: " + forCommand);
         System.out.println("");
         System.out.println("");
-
         System.out.println(this.example);
         System.out.println("");
         System.out.println("");
@@ -118,7 +190,10 @@ public class LetterTranslater implements TerminalUI {
 
     @Override
     public void exit() {
-
+        System.out.print("LetterTranslater was end at " );
+        System.out.print(new Date());
+        System.out.println();
+        System.out.println();
     }
 }
 
