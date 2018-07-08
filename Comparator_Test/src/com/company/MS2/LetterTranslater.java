@@ -115,14 +115,42 @@ public class LetterTranslater implements TerminalUI {
 
 
             System.out.println(argumentStr + "My argument");
-            if (argumentStr.length() > 2 && argumentStr.charAt(0) == '\"' && argumentStr.charAt(argumentStr.length() - 1) == '\"') {
-                HashSet<String> arguments = new HashSet<String >();
-                arguments.add(argumentStr);
-                params.put(Keys.ArgumentKey(), arguments);
-            } else {
-                this.example(argumentStr);
-                return null;
-            }
+
+
+           if (findedOptions.contains("-f")) {
+               String[] arguments = argumentStr.split("\" '");
+               if (arguments.length == 2) {
+                   if (arguments[0].toCharArray()[0] == '\"') {
+                       arguments[0] = arguments[0].concat("\"");
+                   } else {
+                       this.example(argumentStr);
+                       return null;
+                   }
+
+                   if (arguments[1].toCharArray()[arguments[1].length() - 1] == '\'') {
+                       arguments[1] = arguments[1];
+                   } else {
+                       this.example(argumentStr);
+                       return null;
+                   }
+
+                   HashSet<String> strArguments = new HashSet<String>();
+                   strArguments.add(arguments[0]);
+                   strArguments.add(arguments[1]);
+                   params.put(Keys.ArgumentKey(), strArguments);
+               } else {
+                   this.example(argumentStr);
+                   return null;
+               }
+               } else if (argumentStr.length() > 2 && argumentStr.charAt(0) == '\"' && argumentStr.charAt(argumentStr.length() - 1) == '\"') {
+                   HashSet<String> arguments = new HashSet<String>();
+                   arguments.add(argumentStr);
+                   params.put(Keys.ArgumentKey(), arguments);
+               } else {
+                   this.example(argumentStr);
+                   return null;
+               }
+
 //Конец
 
         }
@@ -131,7 +159,7 @@ public class LetterTranslater implements TerminalUI {
 
     private void translate(HashMap<String , HashSet<String>>params) {
         //Проверить наличие опций в params и в случае присутствия - подчинить строку правилам.
-
+        Boolean isSearchNeeded = false;
         String argument = (String) params.get(Keys.ArgumentKey()).toArray()[0];
         for (Object element : params.get(Keys.OptionKey()).toArray()) {
             System.out.println(element);
@@ -142,6 +170,8 @@ public class LetterTranslater implements TerminalUI {
                 argument = new StringBuilder(argument).reverse().toString();
             } else if (option.equals("-lc")) {
                 argument = argument.toLowerCase();
+            } else if (option.equals("-f")) {
+               isSearchNeeded = true;
             }
         }
 
@@ -163,6 +193,15 @@ public class LetterTranslater implements TerminalUI {
 
                 }
             }
+        if (isSearchNeeded) {
+            String searchArgument = (String) params.get(Keys.ArgumentKey()).toArray()[1];
+            if (argument.contains(searchArgument)) {
+                System.out.println(argument + ": contain - " + searchArgument);
+            } else {
+                System.out.println(argument + ": has no - " + searchArgument);
+            }
+            }
+
             this.exit();
     }
 
