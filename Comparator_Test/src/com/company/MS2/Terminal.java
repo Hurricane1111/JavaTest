@@ -1,5 +1,7 @@
 package com.company.MS2;
 
+import com.company.MS2.AdressBook.AdressBook;
+
 import java.util.*;
 
 public class Terminal  {
@@ -17,7 +19,9 @@ public class Terminal  {
     private Terminal() {
         programms.put("exit", new ExitTerminal());
         programms.put("lt", new LetterTranslater());
+        programms.put("AdressBook", new AdressBook());
         avaliableForInstallProgramms.put("lt", new LetterTranslater());
+        avaliableForInstallProgramms.put("AdressBook", new AdressBook());
     }
 
     public void run() {

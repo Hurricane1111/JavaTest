@@ -1,13 +1,17 @@
 package com.company.MS2.AdressBook;
 
+import com.company.MS2.TerminalUI;
+
 import java.util.*;
 
-public class AdressBook {
+public class AdressBook implements TerminalUI {
     ArrayList<Contact> contacts = new ArrayList<Contact>();
 
     ContactSortBy sortBy = ContactSortBy.Name;
 
     Boolean isByIncreasing = true;
+
+    Boolean isExit = false;
 
     Comparator<Contact> byName = new Comparator<Contact>() {
         @Override
@@ -74,15 +78,57 @@ public class AdressBook {
         return  contacts;
     }
 
-    public void addContact(Contact contact) {
+    private void addContact(Contact contact) {
         this.contacts.add(contact);
     }
 
-    public void setByIncreasing(Boolean byIncreasing) {
+    private void setByIncreasing(Boolean byIncreasing) {
         isByIncreasing = byIncreasing;
     }
 
-    public void setSortBy(ContactSortBy sortBy) {
+    private void setSortBy(ContactSortBy sortBy) {
         this.sortBy = sortBy;
+    }
+
+    // Interaction logic
+
+    String name = "AdressBook";
+// Функция работает над петлей считывания команды с клавиатуры
+    private void internalRunCommand(String command) {
+        while (!isExit) {
+            System.out.print("-book [Graviton]: ");
+            Scanner keyboardInput = new Scanner(System.in);
+            command = keyboardInput.nextLine();
+            runCommand(command);
+        }
+        isExit = false;
+    }
+
+    // Функция работает над выполнением команд
+    private void runCommand(String command){
+        if (command.equals("exit")) {
+            exit();
+        }
+    }
+
+    //TerminalUI proto implementation
+
+    @Override
+    public void execute(String command) {
+
+        System.out.println("AdressBook is started at: " + new Date());
+        internalRunCommand(command);
+
+    }
+
+    @Override
+    public void example(String forCommand) {
+
+    }
+
+    @Override
+    public void exit() {
+        isExit = true;
+
     }
 }

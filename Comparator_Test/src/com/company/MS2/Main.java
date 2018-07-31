@@ -1,7 +1,5 @@
 package com.company.MS2;
 
-import com.company.MS2.AdressBook.Formula;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -9,3 +7,17 @@ public class Main {
         Terminal.sharedTerminal.run();
     }
 }
+
+
+/*31.07.2018 ДЗ
+По аналогии с прграммой LT дописать функции проверки и считывания команд.
+Список доступных команд.
+-------------------------------------------
+!!! Возможен вызов только одной команды!!!
+-------------------------------------------
+-l или list - выводит список всех контактов.
+-f <Argument> - поиск по введенном аргументу.
+-d <Argumnet> - удаление по !ID!
+-add - Добавление нового контакта.
+-e или exit - выход.
+*/
